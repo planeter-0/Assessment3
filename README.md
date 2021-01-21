@@ -1,2 +1,2 @@
 # Assessment3
-Learning: Database, Maven
+Learning: SQL,JDBC
