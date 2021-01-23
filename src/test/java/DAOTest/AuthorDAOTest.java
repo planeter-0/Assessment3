@@ -3,6 +3,9 @@ package DAOTest;
 import data_access.AuthorDAO;
 import entity.Author;
 public class AuthorDAOTest {
+    /**
+     * 分别取消注释进行测试
+     */
     public static void main(String[] args) throws Exception {
         //增 通过
 //        Author author = new Author("you", "中国", "测试");

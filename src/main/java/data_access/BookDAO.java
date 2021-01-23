@@ -1,8 +1,8 @@
 package data_access;
 
 import entity.Book;
+import exception.InvalidIDException;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -37,21 +37,23 @@ public class BookDAO extends DAOSupport {
 
     // 查询, 通过book_id, 返回一个Book实例
     public Book queryById(int id) {
-        Book book =new Book();
+        Book book = new Book();
         String sql = "SELECT * FROM books WHERE book_id = " + id;
         try {
             PreparedStatement preparedStatement = this.conn.prepareStatement(sql);
             ResultSet rs = preparedStatement.executeQuery();
             // book对象字段赋值
-            rs.next();
-            book.setId(id);
-            book.setName(rs.getString(2));
-            book.setAuthor_id(rs.getInt(3));
-            book.setPublisher(rs.getString(4));
-            book.setBorrow(rs.getBoolean(5));
-
+            if (rs.next()) {
+                book.setId(id);
+                book.setName(rs.getString(2));
+                book.setAuthor_id(rs.getInt(3));
+                book.setPublisher(rs.getString(4));
+                book.setBorrow(rs.getBoolean(5));
+            }else{
+                throw new InvalidIDException("无效的book_id"); // 抛出供调用该方法的代码处理
+            }
         } catch (SQLException e) {
-            System.out.println("通过ID查询书时出错");
+            System.out.println("通过id查询书时出错");
             e.printStackTrace();
         }
         return book;

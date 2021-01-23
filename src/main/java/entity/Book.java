@@ -1,11 +1,5 @@
 package entity;
-/**
- * ORM (object relational mapping)
- * 一个数据表对应一个java类
- * 表中的一条记录对应java类的一个对象
- * 表中的一个字段对应java类的一个属性
- * 实体类Book
- */
+
 public class Book {
     private int id;
     private String name;

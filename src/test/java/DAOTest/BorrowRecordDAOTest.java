@@ -4,7 +4,10 @@ import data_access.BorrowRecordDAO;
 import entity.BorrowRecord;
 import java.sql.Date;
 
-public class BorrowRecordTest {
+public class BorrowRecordDAOTest {
+    /**
+     * 分别取消注释进行测试
+     */
     public static void main(String[] args) throws Exception {
         //增 通过
 //        BorrowRecord record = new BorrowRecord(2,8,new Date(System.currentTimeMillis()));

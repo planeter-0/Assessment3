@@ -9,7 +9,9 @@ import java.util.Properties;
  * 操作数据库的工具类
  */
 public class JDBCUtils {
-    // 方法: 连接数据库，返回Connection实例
+    /**
+     * 连接数据库，返回Connection实例
+     */
     public static Connection getConnection() throws SQLException, IOException {
         Properties props = new Properties();
         try (InputStream in = JDBCUtils.class.getClassLoader().getResourceAsStream("database.properties")) {
@@ -94,14 +96,14 @@ public class JDBCUtils {
         int columnCount = metaData.getColumnCount();
 
         for (int i = 1; i <= columnCount; i++) {
-            if (i > 1) System.out.print(", ");
+            if (i > 1) System.out.print(", \t");
             System.out.print(metaData.getColumnLabel(i));
         }
         System.out.println();
 
         while (result.next()) {
             for (int i = 1; i <= columnCount; i++) {
-                if (i > 1) System.out.print(", \t");
+                if (i > 1) System.out.print(", \t\t");
                 System.out.print(result.getString(i));
             }
             System.out.println();
@@ -125,5 +127,20 @@ public class JDBCUtils {
             }
         }
         return false;
+    }
+    /**
+     * 返回ResultSet的简单sql执行器, 方法结束后不关闭资源
+     */
+    public static ResultSet returnResultSet(String sql) throws IOException, SQLException {
+        Connection conn = JDBCUtils.getConnection();
+        PreparedStatement ps = null;
+        try {
+            ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ResultSet results =  ps.executeQuery();
+            return results;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

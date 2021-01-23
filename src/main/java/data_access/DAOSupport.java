@@ -35,8 +35,5 @@ public class DAOSupport {
         }
         return 0;
     }
-//    // 查询并返回结果集
-//    public ResultSet getResultSet(Connection conn, String sql, Object... args){
-//
-//    }
+
 }

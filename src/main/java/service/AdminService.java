@@ -59,16 +59,16 @@ public class AdminService {
 
     /**
      * 根据user_id查询某用户的所有借阅记录
-     *    record_id, book_id, book_name, authors.fullname, isReturn
+     *
      */
     public static void queryRecordOfUser(int user_id) throws IOException, SQLException {
         Connection conn = JDBCUtils.getConnection();
         String sql = new String(
-                "SELECT rec.record_id, rec.book_id, rec.isReturn, book_name, authors.fullname" +
-                "FROM borrow_records AS rec, books, authors"+
-                "WHERE rec.user_id = "+user_id+
-                "AND rec.book_id = books.book_id" + //borrow_records外键book_id -> books.book_name
-                "AND books.author_id = authors.author_id" //books外键author_id -> authors.fullname
+                "SELECT rec.record_id, rec.book_id, rec.isReturn, book_name, authors.fullname AS author\n" +
+                "FROM borrow_records AS rec, books, authors\n"+
+                "WHERE rec.user_id = "+user_id+ '\n' +
+                "AND rec.book_id = books.book_id\n" + //borrow_records外键book_id -> books.book_name
+                "AND books.author_id = authors.author_id\n" //books外键author_id -> authors.fullname
                 );
         PreparedStatement ps = conn.prepareStatement(sql);
         //查询
@@ -81,7 +81,26 @@ public class AdminService {
         }
     }
 
-    // 根据book_id查询某图书的所有借阅历史
-    // record_id, user_name, book_name, authors.fullname, date(时间降序), isReturn
-
+    /**根据book_id查询某图书的所有借阅历史
+    /*/
+    //record_id, user_name, book_name, isReturn, authors.fullname, date(时间降序)
+    public static void queryRecordOfBook(int book_id) throws IOException, SQLException {
+        Connection conn = JDBCUtils.getConnection();
+        String sql = new String(
+                "SELECT rec.record_id, rec.book_id, rec.isReturn, rec.date, book_name, authors.fullname AS author\n" +
+                        "FROM borrow_records AS rec, books, authors\n"+
+                        "WHERE books.book_id = "+book_id+ '\n' +
+                        "AND rec.book_id = books.book_id\n" +
+                        "AND books.author_id = authors.author_id\n"
+        );
+        PreparedStatement ps = conn.prepareStatement(sql);
+        //查询
+        try {
+            ResultSet rs = ps.executeQuery();
+            JDBCUtils.showResultSet(rs);
+        } catch (SQLException e) {
+            System.out.println("queryRecordOfUser查询失败");
+            e.printStackTrace();
+        }
+    }
 }

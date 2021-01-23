@@ -57,4 +57,7 @@ public class UserDAO extends DAOSupport {
         return user;
     }
 
+    public User getUser() {
+        return user;
+    }
 }

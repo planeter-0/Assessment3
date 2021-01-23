@@ -7,17 +7,22 @@ public class User {
     private String phone_num;
     private String email;
 
+    // 插入用
     public User(String username, String password, String phone_num, String email) {
         this.username = username;
         this.password = password;
         this.phone_num = phone_num;
         this.email = email;
     }
-
+    // 查询用
     public User(int id) {
         this.id = id;
     }
-
+    // 登陆用
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
     public User() {
 
     }
